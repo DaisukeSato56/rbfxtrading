@@ -1,0 +1,1 @@
+gem 'oanda_api_v20'
