@@ -12,6 +12,22 @@ class Ticker
     @ask = ask
     @volume = volume
   end
+
+  # 2020-01-02 03:04:27
+  def truncate_date_time(duration)
+    ticker_time = @timestamp
+    require '../constants'
+    if duration == DURATION_5S
+
+    elsif duration == DURATION_1M
+
+    elsif duration == DURATION_1H
+
+    else
+      raise 'action=truncate_date_time error=no_datetime_format'
+      nil
+    end
+  end
 end
 
 class Balance
