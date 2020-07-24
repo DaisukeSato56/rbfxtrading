@@ -14,6 +14,7 @@ def main
   puts ticker.truncate_date_time('5s')
   puts ticker.truncate_date_time(settings.trade_duration)
   puts ticker.truncate_date_time('1h')
+  puts ticker.mid_price
 end
 
 main if __FILE__ == $PROGRAM_NAME

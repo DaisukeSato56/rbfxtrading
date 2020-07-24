@@ -14,6 +14,10 @@ class Ticker
     @volume = volume
   end
 
+  def mid_price
+    (@bid + @ask) / 2
+  end
+
   def time
     @timestamp.getutc
   end
