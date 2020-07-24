@@ -10,7 +10,10 @@ def main
   ticker = api_client.get_ticker(settings.product_code)
   puts ticker.product_code
   puts ticker.ask
-  puts ticker.volume
+  puts ticker.timestamp
+  puts ticker.truncate_date_time('5s')
+  puts ticker.truncate_date_time(settings.trade_duration)
+  puts ticker.truncate_date_time('1h')
 end
 
 main if __FILE__ == $PROGRAM_NAME

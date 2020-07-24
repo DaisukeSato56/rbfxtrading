@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'oanda_api_v20'
+require_relative '../constants.rb'
 
 class Ticker
   attr_accessor :product_code, :timestamp, :bid, :ask, :volume
@@ -13,20 +14,34 @@ class Ticker
     @volume = volume
   end
 
+  def time
+    @timestamp.getutc
+  end
+
+  # [example]
   # 2020-01-02 03:04:27
+  # 2020-01-02 03:04:25 5S
+  # 2020-01-02 03:04:00 1M
+  # 2020-01-02 03:00:00 1H
   def truncate_date_time(duration)
-    ticker_time = @timestamp
-    require '../constants'
+    ticker_time = time
     if duration == DURATION_5S
-
+      new_sec = time.sec.floor / 5 * 5
+      ticker_time = Time.new(
+        time.year, time.month, time.day, time.hour, time.min, new_sec
+      )
+      time_format = '%Y-%m-%d %H:%M:%S'
     elsif duration == DURATION_1M
-
+      time_format = '%Y-%m-%d %H:%M'
     elsif duration == DURATION_1H
-
+      time_format = '%Y-%m-%d %H'
     else
       raise 'action=truncate_date_time error=no_datetime_format'
       nil
     end
+
+    str_date = ticker_time.strftime(time_format)
+    Time.strptime(str_date, time_format)
   end
 end
 
