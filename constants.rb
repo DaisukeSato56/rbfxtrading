@@ -10,15 +10,15 @@ GRANULARITY_1M = 'M1'
 GRANULARITY_1H = 'H1'
 
 TRADE_MAP = {
-  DURATION_5S: {
+  DURATION_5S => {
     'duration': DURATION_5S,
     'granularity': GRANULARITY_S5
   },
-  DURATION_1M: {
+  DURATION_1M => {
     'duration': DURATION_1M,
     'granularity': GRANULARITY_1M
   },
-  DURATION_1H: {
+  DURATION_1H => {
     'duration': DURATION_1H,
     'granularity': GRANULARITY_1H
   }

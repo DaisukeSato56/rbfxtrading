@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'oanda_api_v20'
+require_relative '../settings.rb'
 require_relative '../constants.rb'
 
 class Ticker
@@ -59,10 +60,13 @@ class Balance
 end
 
 class APIClient
+  attr_reader :settings
+
   def initialize(access_token, account_id, environnment = 'practice')
     @access_token = access_token
     @account_id = account_id
     @client = OandaApiV20.new(access_token: access_token, practice: environnment == 'practice')
+    @settings = Settings.new
   end
 
   def get_balance
@@ -91,7 +95,22 @@ class APIClient
     instrument = price['instrument']
     bid = price['bids'][0]['price'].to_f
     ask = price['asks'][0]['price'].to_f
-    volume = 11_111
+    volume = get_candle_volume
     Ticker.new(instrument, timestamp, bid, ask, volume)
+  end
+
+  def get_candle_volume(count = 1, granularity = TRADE_MAP[settings.trade_duration][:granularity])
+    params = {
+      'count': count,
+      'granularity': granularity
+    }
+    req = @client.instrument(settings.product_code).candles(params)
+    begin
+      resp = req.show
+    rescue StandardError => e
+      raise e
+    end
+
+    resp['candles'][0]['volume']
   end
 end
